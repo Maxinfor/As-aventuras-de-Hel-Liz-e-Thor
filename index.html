@@ -1,46 +1,22 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Thor: Em Busca de Casa</title>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
-    <style> body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: #000; } </style>
-</head>
-<body>
-<script>
-const config = {
-    type: Phaser.AUTO, width: 800, height: 600,
-    physics: { default: 'arcade', arcade: { gravity: { y: 500 }, debug: true } },
-    scene: { preload: preload, create: create, update: update }
-};
-
-const game = new Phaser.Game(config);
-let player, cursors;
-
-function preload() {}
+function preload() {
+    // Carregando as imagens que você renomeou na pasta
+    this.load.image('ground', 'https://labs.phaser.io/assets/sprites/platform.png'); // Imagem de apoio do Phaser
+    this.load.image('helo', 'helo.jpg');
+    this.load.image('liz', 'liz.jpg');
+    this.load.image('thor', 'thor.jpg');
+}
 
 function create() {
-    // Chão para os personagens pisarem
+    // Chão
     const platforms = this.physics.add.staticGroup();
     platforms.create(400, 580, 'ground').setScale(2).refreshBody();
 
-    // Criando a Helô (Maior - azul)
+    // Criando a Helô (personagem jogável)
     player = this.physics.add.sprite(100, 450, 'helo');
-    player.setDisplaySize(40, 80); 
+    player.setDisplaySize(50, 50); // Ajuste o tamanho conforme sua imagem
     player.setCollideWorldBounds(true);
 
     // Física
     this.physics.add.collider(player, platforms);
     cursors = this.input.keyboard.createCursorKeys();
 }
-
-function update() {
-    if (cursors.left.isDown) player.setVelocityX(-160);
-    else if (cursors.right.isDown) player.setVelocityX(160);
-    else player.setVelocityX(0);
-
-    if (cursors.up.isDown && player.body.touching.down) player.setVelocityY(-330);
-}
-</script>
-</body>
-</html>
